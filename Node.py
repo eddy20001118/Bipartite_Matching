@@ -1,11 +1,11 @@
 class Node:
-    name = ""
-    node_type = ""
-    child = None
-    parent = None
-    avail_set = []
     parent_set = []
     child_set = []
+
+    name = ""
+    node_type = ""
+    connected_node = None
+    avail_set = []
     index = []
     has_connected = False
     initially_unconnected = False
@@ -40,25 +40,21 @@ class Node:
         return "{:s} : {:s}".format(self.node_type, self.name)
 
     def add_child(self, child):
-        if child.parent is not None:
-            old_parent = child.parent
-            old_parent.child = None
-        self.child = child
-        self.child.parent = self
+        if child.connected_node is not None:
+            old_parent = child.connected_node
+            old_parent.connected_node = None
+
+        child.connected_node = self
+        self.connected_node = child
+
         self.has_connected = True
-        self.child.has_connected = True
+        self.connected_node.has_connected = True
 
     def is_connected(self):
-        is_connected = (self.parent is not None) or (self.child is not None)
-        return is_connected
+        return self.connected_node is not None
 
     def get_connected_node(self):
-        if self.node_type == "parent":
-            return self.child
-        elif self.node_type == "child":
-            return self.parent
-        else:
-            return None
+        return self.connected_node
 
     def get_addtion_child(self, current_node):
         for node in self.avail_set:
@@ -66,11 +62,11 @@ class Node:
                 return node
 
         for node in self.avail_set:
-            if node is not current_node and not node.parent.has_connected:
+            if node is not current_node and not node.connected_node.has_connected:
                 return node
 
         for node in self.avail_set:
-            if node is not current_node and not node.parent.initially_unconnected:
+            if node is not current_node and not node.connected_node.initially_unconnected:
                 return node
 
         for node in self.avail_set:

@@ -15,7 +15,7 @@ def print_node_intial_match(parent_set, child_set):
     a_type = ""
     a = []
     b = []
-    
+
     if len(parent_set) > len(child_set):
         a = parent_set
         b = child_set

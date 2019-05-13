@@ -3,11 +3,15 @@ from Algorithm import Algorithm
 import os
 import traceback
 import copy
+import platform
 
 title = "DUISC Decision Maths"
 sub_title = "Maximum Solver"
 author_copyright = "Yuhao Li 2019"
 sys_clear = "CLS"
+
+if platform.system() != "Windows":
+    sys_clear = "clear"
 
 def print_node_intial_match(parent_set, child_set):
     a_info = ""
@@ -411,17 +415,14 @@ def main():
                     input(
                         "Option 3 : Set Initial Match is not complete, press any key to continue")
                 else:
-                    if case_4_count > 0 and case_4_complete:
-                        print_result_nodes(res_parent_set, im_parent_set)
-                    else:
-                        algo = Algorithm(Node.parent_set)
-                        cal_res = algo.execute()
-                        case_4_complete = True
-                        case_4_count += 1
-                        print_result_nodes(cal_res, im_parent_set)
+                    algo = Algorithm(Node.parent_set)
+                    cal_res = algo.execute()
+                    case_4_complete = True
+                    case_4_count += 1
+                    print_result_nodes(cal_res, im_parent_set)
 
-                        Node.parent_set = im_parent_set
-                        Node.child_set = im_child_set
+                    Node.parent_set = im_parent_set
+                    Node.child_set = im_child_set
 
             elif input_option is "":
                 pass
